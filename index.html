@@ -16,43 +16,43 @@
       <span><strong>Lead</strong>Predictor</span>
     </header>
 
-    <aside class="sidebar panel" aria-label="Campaign settings">
+    <aside class="sidebar panel" aria-label="Campaign settings" data-i18n-aria-label="campaignSettings">
       <div class="field">
-        <label for="language">Language</label>
+        <label for="language" data-i18n="language">Language</label>
         <div class="control select-control">
-          <span class="control-icon flag" aria-hidden="true">🇺🇸</span>
+          <span class="control-icon flag" id="language-flag" aria-hidden="true">🇺🇸</span>
           <select id="language">
-            <option>English</option>
-            <option>Deutsch</option>
-            <option>Español</option>
+            <option value="en" data-i18n="english">English</option>
+            <option value="de" data-i18n="german">Deutsch</option>
+            <option value="es" data-i18n="spanish">Español</option>
           </select>
         </div>
       </div>
 
       <div class="field">
-        <label for="currency">Currency</label>
+        <label for="currency" data-i18n="currency">Currency</label>
         <div class="control select-control">
           <span class="control-icon currency-sign" aria-hidden="true">$</span>
           <select id="currency">
-            <option value="$">US Dollar</option>
-            <option value="€">Euro</option>
-            <option value="£">British Pound</option>
+            <option value="$" data-i18n="usd">US Dollar</option>
+            <option value="€" data-i18n="euro">Euro</option>
+            <option value="£" data-i18n="gbp">British Pound</option>
           </select>
         </div>
       </div>
 
       <div class="field">
-        <label for="campaign-start">Campaign Start</label>
+        <label for="campaign-start" data-i18n="campaignStart">Campaign Start</label>
         <input class="control date-control" id="campaign-start" type="date" value="2026-05-08">
       </div>
 
       <div class="field">
-        <label for="campaign-end">Campaign End</label>
+        <label for="campaign-end" data-i18n="campaignEnd">Campaign End</label>
         <input class="control date-control" id="campaign-end" type="date" value="2026-11-04">
       </div>
 
       <div class="field">
-        <label for="revenue">Total Revenue</label>
+        <label for="revenue" data-i18n="totalRevenue">Total Revenue</label>
         <div class="control number-control">
           <span class="control-icon currency-output" aria-hidden="true">$</span>
           <input id="revenue" type="number" min="0" step="100" value="10000" inputmode="decimal">
@@ -60,26 +60,26 @@
       </div>
 
       <div class="field">
-        <label for="order-value">Avg. Order Value</label>
+        <label for="order-value" data-i18n="averageOrderValue">Avg. Order Value</label>
         <div class="control number-control">
           <span class="control-icon currency-output" aria-hidden="true">$</span>
           <input id="order-value" type="number" min="1" step="10" value="1000" inputmode="decimal">
         </div>
       </div>
-    <button id="reset-button" type="button">Reset</button>
+    <button id="reset-button" type="button" data-i18n="reset">Reset</button>
     </aside>
 
-    <section class="overview panel" aria-label="Monthly lead forecast">
+    <section class="overview panel" aria-label="Monthly lead forecast" data-i18n-aria-label="monthlyForecast">
       <div class="chart-area">
-        <canvas id="forecast-chart" role="img" aria-label="Horizontal stacked bar chart showing prospects, leads, and customers over six months"></canvas>
+        <canvas id="forecast-chart" role="img" aria-label="Horizontal stacked bar chart showing prospects, leads, and customers over six months" data-i18n-aria-label="chartDescription"></canvas>
         <div id="chart-tooltip" class="chart-tooltip" aria-hidden="true"></div>
       </div>
 
-      <div class="statistics" aria-label="Forecast totals">
+      <div class="statistics" aria-label="Forecast totals" data-i18n-aria-label="forecastTotals">
         <article class="stat-card prospects-card">
           <div class="stat-heading">
             <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4V7Zm5-3h6l2 3H7l2-3Zm-2 8h10v2H7v-2Z"/></svg></span>
-            <span>Prospects</span>
+            <span data-i18n="prospects">Prospects</span>
             <strong id="prospects-percent">100%</strong>
           </div>
           <div class="stat-value" id="prospects-value">125</div>
@@ -89,7 +89,7 @@
         <article class="stat-card leads-card">
           <div class="stat-heading">
             <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8c0-4 3-6 7-6s7 2 7 6H5Z"/></svg></span>
-            <span>Leads</span>
+            <span data-i18n="leads">Leads</span>
             <strong id="leads-percent">20%</strong>
           </div>
           <div class="stat-value" id="leads-value">25</div>
@@ -99,7 +99,7 @@
         <article class="stat-card customers-card">
           <div class="stat-heading">
             <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h10v3h3v3c0 3-2 5-5 5h-1v3h3v3H7v-3h3v-3H9c-3 0-5-2-5-5V6h3V3Zm0 6c0 1 .6 2 2 2V8H7v1Zm8 2c1.4 0 2-1 2-2V8h-2v3Z"/></svg></span>
-            <span>Customers</span>
+            <span data-i18n="customers">Customers</span>
             <strong id="customers-percent">8%</strong>
           </div>
           <div class="stat-value" id="customers-value">10</div>
@@ -108,14 +108,14 @@
       </div>
     </section>
 
-    <section class="rates panel" aria-label="Response rates">
+    <section class="rates panel" aria-label="Response rates" data-i18n-aria-label="responseRates">
       <div class="slider-group">
-        <label for="lead-rate">Lead Response Rate</label>
+        <label for="lead-rate" data-i18n="leadResponseRate">Lead Response Rate</label>
         <input id="lead-rate" type="range" min="1" max="100" value="40">
         <output id="lead-rate-output" for="lead-rate">40.00%</output>
       </div>
       <div class="slider-group">
-        <label for="prospect-rate">Prospect Response Rate</label>
+        <label for="prospect-rate" data-i18n="prospectResponseRate">Prospect Response Rate</label>
         <input id="prospect-rate" type="range" min="1" max="100" value="20">
         <output id="prospect-rate-output" for="prospect-rate">20.00%</output>
       </div>
