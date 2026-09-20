@@ -153,6 +153,11 @@
   elements.currency.addEventListener('change', () => {
     elements.currencyOutputs.forEach(output => { output.textContent = elements.currency.value; });
   });
+ document.getElementById('reset-button').addEventListener('click', () => {
+  elements.revenue.value = 10000;
+  elements.orderValue.value = 1000;
+  refresh();
+});
   elements.canvas.addEventListener('mousemove', handleChartPointer);
   elements.canvas.addEventListener('mouseleave', () => { elements.tooltip.style.display = 'none'; });
   window.addEventListener('resize', refresh);
