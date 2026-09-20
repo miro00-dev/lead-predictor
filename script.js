@@ -143,7 +143,13 @@
   ['input', 'change'].forEach(eventName => {
     [elements.revenue, elements.orderValue, elements.leadRate, elements.prospectRate].forEach(element => element.addEventListener(eventName, refresh));
   });
-
+[elements.revenue, elements.orderValue, elements.leadRate, elements.prospectRate].forEach(input => {
+  input.addEventListener('input', () => {
+    if (Number(input.value) < 0) {
+      input.value = 0;
+    }
+  });
+});
   elements.currency.addEventListener('change', () => {
     elements.currencyOutputs.forEach(output => { output.textContent = elements.currency.value; });
   });
