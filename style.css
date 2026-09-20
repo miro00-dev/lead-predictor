@@ -281,3 +281,10 @@ input[type="range"]::-moz-range-thumb {
   .overview, .rates, .sidebar { padding: 22px 18px; }
   .chart-area { height: 330px; }
 }
+.panel {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.panel:hover {
+  transform: translateY(-2px);
+}
