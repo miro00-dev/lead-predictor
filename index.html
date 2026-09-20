@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadPredictor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="dashboard">
+    <header class="brand" aria-label="LeadPredictor">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z"/></svg>
+      </span>
+      <span><strong>Lead</strong>Predictor</span>
+    </header>
+
+    <aside class="sidebar panel" aria-label="Campaign settings">
+      <div class="field">
+        <label for="language">Language</label>
+        <div class="control select-control">
+          <span class="control-icon flag" aria-hidden="true">🇺🇸</span>
+          <select id="language">
+            <option>English</option>
+            <option>Deutsch</option>
+            <option>Español</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="currency">Currency</label>
+        <div class="control select-control">
+          <span class="control-icon currency-sign" aria-hidden="true">$</span>
+          <select id="currency">
+            <option value="$">US Dollar</option>
+            <option value="€">Euro</option>
+            <option value="£">British Pound</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="campaign-start">Campaign Start</label>
+        <input class="control date-control" id="campaign-start" type="date" value="2026-05-08">
+      </div>
+
+      <div class="field">
+        <label for="campaign-end">Campaign End</label>
+        <input class="control date-control" id="campaign-end" type="date" value="2026-11-04">
+      </div>
+
+      <div class="field">
+        <label for="revenue">Total Revenue</label>
+        <div class="control number-control">
+          <span class="control-icon currency-output" aria-hidden="true">$</span>
+          <input id="revenue" type="number" min="0" step="100" value="10000" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="order-value">Avg. Order Value</label>
+        <div class="control number-control">
+          <span class="control-icon currency-output" aria-hidden="true">$</span>
+          <input id="order-value" type="number" min="1" step="10" value="1000" inputmode="decimal">
+        </div>
+      </div>
+    </aside>
+
+    <section class="overview panel" aria-label="Monthly lead forecast">
+      <div class="chart-area">
+        <canvas id="forecast-chart" role="img" aria-label="Horizontal stacked bar chart showing prospects, leads, and customers over six months"></canvas>
+        <div id="chart-tooltip" class="chart-tooltip" aria-hidden="true"></div>
+      </div>
+
+      <div class="statistics" aria-label="Forecast totals">
+        <article class="stat-card prospects-card">
+          <div class="stat-heading">
+            <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16v12H4V7Zm5-3h6l2 3H7l2-3Zm-2 8h10v2H7v-2Z"/></svg></span>
+            <span>Prospects</span>
+            <strong id="prospects-percent">100%</strong>
+          </div>
+          <div class="stat-value" id="prospects-value">125</div>
+          <div class="progress"><span id="prospects-progress"></span></div>
+        </article>
+
+        <article class="stat-card leads-card">
+          <div class="stat-heading">
+            <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8c0-4 3-6 7-6s7 2 7 6H5Z"/></svg></span>
+            <span>Leads</span>
+            <strong id="leads-percent">20%</strong>
+          </div>
+          <div class="stat-value" id="leads-value">25</div>
+          <div class="progress"><span id="leads-progress"></span></div>
+        </article>
+
+        <article class="stat-card customers-card">
+          <div class="stat-heading">
+            <span class="stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h10v3h3v3c0 3-2 5-5 5h-1v3h3v3H7v-3h3v-3H9c-3 0-5-2-5-5V6h3V3Zm0 6c0 1 .6 2 2 2V8H7v1Zm8 2c1.4 0 2-1 2-2V8h-2v3Z"/></svg></span>
+            <span>Customers</span>
+            <strong id="customers-percent">8%</strong>
+          </div>
+          <div class="stat-value" id="customers-value">10</div>
+          <div class="progress"><span id="customers-progress"></span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="rates panel" aria-label="Response rates">
+      <div class="slider-group">
+        <label for="lead-rate">Lead Response Rate</label>
+        <input id="lead-rate" type="range" min="1" max="100" value="40">
+        <output id="lead-rate-output" for="lead-rate">40.00%</output>
+      </div>
+      <div class="slider-group">
+        <label for="prospect-rate">Prospect Response Rate</label>
+        <input id="prospect-rate" type="range" min="1" max="100" value="20">
+        <output id="prospect-rate-output" for="prospect-rate">20.00%</output>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
