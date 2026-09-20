@@ -2,6 +2,8 @@
   'use strict';
 
   const elements = {
+    language: document.querySelector('#language'),
+    languageFlag: document.querySelector('#language-flag'),
     revenue: document.querySelector('#revenue'),
     orderValue: document.querySelector('#order-value'),
     leadRate: document.querySelector('#lead-rate'),
@@ -14,9 +16,67 @@
     tooltip: document.querySelector('#chart-tooltip')
   };
 
-  const formatInteger = value => Math.round(value).toLocaleString('en-US');
+  const translations = {
+    en: {
+      language: 'Language', currency: 'Currency', campaignStart: 'Campaign Start', campaignEnd: 'Campaign End',
+      totalRevenue: 'Total Revenue', averageOrderValue: 'Avg. Order Value', prospects: 'Prospects', leads: 'Leads',
+      customers: 'Customers', leadResponseRate: 'Lead Response Rate', prospectResponseRate: 'Prospect Response Rate',
+      reset: 'Reset', english: 'English', german: 'Deutsch', spanish: 'Español', usd: 'US Dollar', euro: 'Euro',
+      gbp: 'British Pound', month: 'Month', people: 'people', campaignSettings: 'Campaign settings',
+      monthlyForecast: 'Monthly lead forecast', forecastTotals: 'Forecast totals', responseRates: 'Response rates',
+      chartDescription: 'Horizontal stacked bar chart showing prospects, leads, and customers over six months'
+    },
+    de: {
+      language: 'Sprache', currency: 'Währung', campaignStart: 'Kampagnenbeginn', campaignEnd: 'Kampagnenende',
+      totalRevenue: 'Gesamtumsatz', averageOrderValue: 'Durchschn. Bestellwert', prospects: 'Interessenten', leads: 'Potenzielle Kunden',
+      customers: 'Kunden', leadResponseRate: 'Antwortrate potenzieller Kunden', prospectResponseRate: 'Interessenten-Antwortrate',
+      reset: 'Zurücksetzen', english: 'Englisch', german: 'Deutsch', spanish: 'Spanisch', usd: 'US-Dollar', euro: 'Euro',
+      gbp: 'Britisches Pfund', month: 'Monat', people: 'Personen', campaignSettings: 'Kampagneneinstellungen',
+      monthlyForecast: 'Monatliche Kontaktprognose', forecastTotals: 'Prognosesummen', responseRates: 'Antwortraten',
+      chartDescription: 'Horizontales gestapeltes Balkendiagramm mit Interessenten, potenziellen Kunden und Kunden über sechs Monate'
+    },
+    es: {
+      language: 'Idioma', currency: 'Moneda', campaignStart: 'Inicio de campaña', campaignEnd: 'Fin de campaña',
+      totalRevenue: 'Ingresos totales', averageOrderValue: 'Valor medio del pedido', prospects: 'Prospectos', leads: 'Clientes potenciales',
+      customers: 'Clientes', leadResponseRate: 'Tasa de respuesta de clientes potenciales', prospectResponseRate: 'Tasa de respuesta de prospectos',
+      reset: 'Restablecer', english: 'Inglés', german: 'Alemán', spanish: 'Español', usd: 'Dólar estadounidense', euro: 'Euro',
+      gbp: 'Libra esterlina', month: 'Mes', people: 'personas', campaignSettings: 'Configuración de campaña',
+      monthlyForecast: 'Pronóstico mensual de clientes potenciales', forecastTotals: 'Totales del pronóstico', responseRates: 'Tasas de respuesta',
+      chartDescription: 'Gráfico de barras apiladas horizontal con prospectos, clientes potenciales y clientes durante seis meses'
+    }
+  };
+
+  const languageSettings = {
+    en: { locale: 'en-US', flag: '🇺🇸' },
+    de: { locale: 'de-DE', flag: '🇩🇪' },
+    es: { locale: 'es-ES', flag: '🇪🇸' }
+  };
+
+  let currentLanguage = 'en';
+
+  const translate = key => translations[currentLanguage][key] || translations.en[key] || key;
+  const formatInteger = value => Math.round(value).toLocaleString(languageSettings[currentLanguage].locale);
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   let chartRows = [];
+
+  function setLanguage(language, save = true) {
+    currentLanguage = translations[language] ? language : 'en';
+    elements.language.value = currentLanguage;
+    elements.languageFlag.textContent = languageSettings[currentLanguage].flag;
+    document.documentElement.lang = currentLanguage;
+
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      element.textContent = translate(element.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
+      element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel));
+    });
+
+    if (save) {
+      try { localStorage.setItem('leadPredictorLanguage', currentLanguage); } catch (_) { /* Storage may be unavailable. */ }
+    }
+    refresh();
+  }
 
   function calculate() {
     const revenue = Math.max(0, Number(elements.revenue.value) || 0);
@@ -86,7 +146,7 @@
       ctx.strokeStyle = '#2c3a4e';
       ctx.beginPath(); ctx.moveTo(x, margin.top); ctx.lineTo(x, height - margin.bottom); ctx.stroke();
       ctx.fillStyle = '#e3e8ef';
-      ctx.fillText(`${i * 20} people`, x, height - 19);
+      ctx.fillText(`${i * 20} ${translate('people')}`, x, height - 19);
     }
 
     const rowHeight = plotHeight / 6;
@@ -122,7 +182,7 @@
     ctx.fillStyle = '#e3e8ef';
     ctx.textAlign = 'center';
     ctx.font = '600 12px Inter, Segoe UI, sans-serif';
-    ctx.fillText('Month', 0, 0);
+    ctx.fillText(translate('month'), 0, 0);
     ctx.restore();
   }
 
@@ -134,7 +194,7 @@
       elements.tooltip.style.display = 'none';
       return;
     }
-    elements.tooltip.innerHTML = `<strong>Month #${row.month}</strong>Prospects: ${formatInteger(row.values.prospects)}<br>Leads: ${formatInteger(row.values.leads)}<br>Customers: ${formatInteger(row.values.customers)}`;
+    elements.tooltip.innerHTML = `<strong>${translate('month')} #${row.month}</strong>${translate('prospects')}: ${formatInteger(row.values.prospects)}<br>${translate('leads')}: ${formatInteger(row.values.leads)}<br>${translate('customers')}: ${formatInteger(row.values.customers)}`;
     elements.tooltip.style.display = 'block';
     elements.tooltip.style.left = `${clamp(event.clientX - bounds.left + 12, 0, bounds.width - 112)}px`;
     elements.tooltip.style.top = `${clamp(y - 32, 0, bounds.height - 84)}px`;
@@ -153,6 +213,7 @@
   elements.currency.addEventListener('change', () => {
     elements.currencyOutputs.forEach(output => { output.textContent = elements.currency.value; });
   });
+  elements.language.addEventListener('change', () => setLanguage(elements.language.value));
  document.getElementById('reset-button').addEventListener('click', () => {
   elements.revenue.value = 10000;
   elements.orderValue.value = 1000;
@@ -161,5 +222,7 @@
   elements.canvas.addEventListener('mousemove', handleChartPointer);
   elements.canvas.addEventListener('mouseleave', () => { elements.tooltip.style.display = 'none'; });
   window.addEventListener('resize', refresh);
-  refresh();
+  let savedLanguage = 'en';
+  try { savedLanguage = localStorage.getItem('leadPredictorLanguage') || 'en'; } catch (_) { /* Use English. */ }
+  setLanguage(savedLanguage, false);
 })();
